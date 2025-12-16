@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MySQL Complete Tutorial</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><i class="fas fa-database me-2"></i>MySQL Tutor</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#intro"><i class="fas fa-info-circle me-1"></i>Intro</a></li>
+        <li class="nav-item"><a class="nav-link" href="#database"><i class="fas fa-database me-1"></i>Database</a></li>
+        <li class="nav-item"><a class="nav-link" href="#table"><i class="fas fa-table me-1"></i>Table</a></li>
+        <li class="nav-item"><a class="nav-link" href="#dml"><i class="fas fa-edit me-1"></i>DML</a></li>
+        <li class="nav-item"><a class="nav-link" href="#constraints"><i class="fas fa-lock me-1"></i>Constraints</a></li>
+        <li class="nav-item"><a class="nav-link" href="#joins"><i class="fas fa-link me-1"></i>Joins</a></li>
+        <li class="nav-item"><a class="nav-link" href="#advanced"><i class="fas fa-cogs me-1"></i>Advanced</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero-section text-center text-white">
+  <div class="container">
+    <h1 class="display-4 mb-3">MySQL Complete Tutorial</h1>
+    <p class="lead mb-4">Learn MySQL from basics to advanced with clean, interactive design</p>
+    <div class="mt-4">
+      <a href="#database" class="btn btn-primary btn-lg me-2"><i class="fas fa-play me-1"></i>Start Learning</a>
+      <a href="#advanced" class="btn btn-outline-light btn-lg"><i class="fas fa-graduation-cap me-1"></i>Advanced Topics</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Quick Navigation Cards -->
+  <div class="row quick-nav mt-4 mb-5">
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="fas fa-database fa-3x text-primary mb-3"></i>
+          <h5 class="card-title">Database Operations</h5>
+          <p class="card-text">Create, use, and manage databases</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="fas fa-table fa-3x text-success mb-3"></i>
+          <h5 class="card-title">Table Management</h5>
+          <p class="card-text">Create, alter, and drop tables</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="fas fa-code fa-3x text-warning mb-3"></i>
+          <h5 class="card-title">SQL Queries</h5>
+          <p class="card-text">SELECT, INSERT, UPDATE, DELETE</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <i class="fas fa-project-diagram fa-3x text-danger mb-3"></i>
+          <h5 class="card-title">Advanced Features</h5>
+          <p class="card-text">Joins, procedures, triggers & more</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="intro" class="container section">
+  <h2 class="section-title"><i class="fas fa-info-circle me-2"></i>Introduction to MySQL</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">What is MySQL?</h5>
+          <p class="card-text">MySQL is an open-source relational database management system (RDBMS) that uses SQL (Structured Query Language) to manage and manipulate data.</p>
+          <ul>
+            <li>SQL keywords are NOT case-sensitive</li>
+            <li>Used by many popular websites and applications</li>
+            <li>Supports large databases with high performance</li>
+            <li>Provides data security and integrity</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Key Features</h5>
+          <ul>
+            <li><strong>Relational Database:</strong> Stores data in tables with relationships</li>
+            <li><strong>ACID Compliance:</strong> Ensures data reliability</li>
+            <li><strong>Cross-Platform:</strong> Works on Windows, Linux, macOS</li>
+            <li><strong>Scalable:</strong> Handles small to large applications</li>
+            <li><strong>Secure:</strong> User authentication and access control</li>
+          </ul>
+          <div class="alert alert-info mt-3">
+            <i class="fas fa-lightbulb me-2"></i>
+            <strong>Tip:</strong> SQL keywords are not case-sensitive: SELECT = select = Select
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="database" class="container section">
+  <h2 class="section-title"><i class="fas fa-database me-2"></i>Database Operations</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-eye me-1"></i> Show Databases</h5>
+    </div>
+    <div class="card-body">
+      <p>Display all databases in the MySQL server:</p>
+      <pre><code class="language-sql">SHOW DATABASES;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0"><i class="fas fa-plus-circle me-1"></i> Create Database</h5>
+    </div>
+    <div class="card-body">
+      <p>Create a new database:</p>
+      <pre><code class="language-sql">CREATE DATABASE myDb;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0"><i class="fas fa-check-circle me-1"></i> Use Database</h5>
+    </div>
+    <div class="card-body">
+      <p>Select a database to work with:</p>
+      <pre><code class="language-sql">USE myDb;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-danger text-white">
+      <h5 class="mb-0"><i class="fas fa-trash me-1"></i> Drop Database</h5>
+    </div>
+    <div class="card-body">
+      <p>Delete a database:</p>
+      <pre><code class="language-sql">DROP DATABASE myDb;</code></pre>
+      <div class="alert alert-warning mt-2">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Warning:</strong> This permanently deletes the database and all its data!
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0"><i class="fas fa-lock me-1"></i> Read-Only Mode</h5>
+    </div>
+    <div class="card-body">
+      <p>Set database to read-only mode:</p>
+      <pre><code class="language-sql">-- Set to read-only
+ALTER DATABASE mydb READ ONLY = 1;
+
+-- Set back to read-write
+ALTER DATABASE mydb READ ONLY = 0;</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="table" class="container section">
+  <h2 class="section-title"><i class="fas fa-table me-2"></i>Table Management</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-plus-circle me-1"></i> Create Table</h5>
+    </div>
+    <div class="card-body">
+      <p>Create a new table with columns:</p>
+      <pre><code class="language-sql">CREATE TABLE employees(
+    employee_id INT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hourly_pay DECIMAL(5,2),
+    hire_date DATE
+);</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0"><i class="fas fa-eye me-1"></i> View Table Structure</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">SELECT * FROM employees;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0"><i class="fas fa-edit me-1"></i> Rename Table</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">RENAME TABLE employees TO workers;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-danger text-white">
+      <h5 class="mb-0"><i class="fas fa-trash me-1"></i> Drop Table</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">DROP TABLE employees;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0"><i class="fas fa-columns me-1"></i> Alter Table</h5>
+    </div>
+    <div class="card-body">
+      <p>Add a new column:</p>
+      <pre><code class="language-sql">ALTER TABLE employees
+ADD phone_number VARCHAR(15);</code></pre>
+      
+      <p class="mt-3">Rename a column:</p>
+      <pre><code class="language-sql">ALTER TABLE employees
+RENAME COLUMN phone_number TO email;</code></pre>
+      
+      <p class="mt-3">Modify column data type:</p>
+      <pre><code class="language-sql">ALTER TABLE employees
+MODIFY COLUMN email VARCHAR(100);</code></pre>
+      
+      <p class="mt-3">Change column position:</p>
+      <pre><code class="language-sql">-- Move column after last_name
+ALTER TABLE employees
+MODIFY email VARCHAR(100)
+AFTER last_name;
+
+-- Move column to first position
+ALTER TABLE employees
+MODIFY email VARCHAR(100)
+FIRST;</code></pre>
+      
+      <p class="mt-3">Drop a column:</p>
+      <pre><code class="language-sql">ALTER TABLE employees
+DROP COLUMN email;</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="dml" class="container section">
+  <h2 class="section-title"><i class="fas fa-edit me-2"></i>Data Manipulation Language (DML)</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-plus me-1"></i> Insert Data</h5>
+    </div>
+    <div class="card-body">
+      <p>Insert a single row:</p>
+      <pre><code class="language-sql">INSERT INTO employees
+VALUES (1, "Okeyo", "Oyoo", "okoyo@gmail.com", 30.05, "2025-01-02");</code></pre>
+      
+      <p class="mt-3">Insert multiple rows:</p>
+      <pre><code class="language-sql">INSERT INTO employees
+VALUES 
+    (2, "Lil", "Durk", "lil@gmail.com", 40.5, "2025-01-23"),
+    (3, "Lil", "Baby", "lil@gmail.com", 40.5, "2025-01-23"),
+    (4, "king", "von", "king@gmail.com", 40.5, "2025-01-23"),
+    (5, "Lil", "wayne", "lil@gmail.com", 40.5, "2025-01-23");</code></pre>
+      
+      <p class="mt-3">Insert specific columns only:</p>
+      <pre><code class="language-sql">INSERT INTO employees (employee_id, first_name, last_name)
+VALUES (6, "Gta", "Love");</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0"><i class="fas fa-search me-1"></i> Select Data</h5>
+    </div>
+    <div class="card-body">
+      <p>Select all columns:</p>
+      <pre><code class="language-sql">SELECT * FROM employees;</code></pre>
+      
+      <p class="mt-3">Select specific columns:</p>
+      <pre><code class="language-sql">SELECT last_name, first_name
+FROM employees;</code></pre>
+      
+      <p class="mt-3">Using WHERE clause:</p>
+      <pre><code class="language-sql">-- Equality check
+SELECT * FROM employees 
+WHERE employee_id = 1;
+
+-- Comparison operators
+SELECT * FROM employees 
+WHERE hourly_pay >= 15;
+
+-- NULL checks
+SELECT * FROM employees
+WHERE hourly_pay IS NULL;
+
+SELECT * FROM employees
+WHERE hourly_pay IS NOT NULL;</code></pre>
+      
+      <p class="mt-3">Logical operators:</p>
+      <pre><code class="language-sql">SELECT * FROM employees
+WHERE hourly_pay = 30.5 OR job = "Manager";
+
+-- Other operators: !=, <, >, <=, >=, NOT, BETWEEN... AND, IN(...)</code></pre>
+      
+      <p class="mt-3">Wildcards:</p>
+      <pre><code class="language-sql">-- % : Matches any sequence of characters
+SELECT * FROM employees
+WHERE first_name LIKE "d%";  -- Starts with 'd'
+
+SELECT * FROM employees
+WHERE last_name LIKE "%s";   -- Ends with 's'
+
+-- _ : Matches a single character
+SELECT * FROM employees
+WHERE job LIKE "_ook";
+
+-- Combined
+SELECT * FROM employees
+WHERE job LIKE "_a%";</code></pre>
+      
+      <p class="mt-3">Sorting with ORDER BY:</p>
+      <pre><code class="language-sql">-- Ascending (default)
+SELECT * FROM employees
+ORDER BY employee_id;
+
+-- Descending
+SELECT * FROM employees
+ORDER BY employee_id DESC;</code></pre>
+      
+      <p class="mt-3">Limiting results:</p>
+      <pre><code class="language-sql">-- Get first row
+SELECT * FROM employees 
+LIMIT 1;
+
+-- Get top 2 after sorting
+SELECT * FROM employees 
+ORDER BY last_name DESC
+LIMIT 2;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0"><i class="fas fa-sync me-1"></i> Update Data</h5>
+    </div>
+    <div class="card-body">
+      <p>Update single column:</p>
+      <pre><code class="language-sql">UPDATE employees
+SET hire_date = "2025-09-24"
+WHERE first_name = "Gta";</code></pre>
+      
+      <p class="mt-3">Update multiple columns:</p>
+      <pre><code class="language-sql">UPDATE employees
+SET hire_date = "2025-09-24",
+    hourly_pay = 34.50
+WHERE first_name = "Gta" AND last_name = "Love";</code></pre>
+      
+      <div class="alert alert-warning mt-3">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Important:</strong> Always use WHERE clause with UPDATE or you'll update ALL rows!
+        <pre class="mt-2 mb-0"><code class="language-sql">-- Disable safe mode for updates without WHERE
+SET SQL_SAFE_UPDATES = 0;
+
+-- Enable safe mode (recommended)
+SET SQL_SAFE_UPDATES = 1;</code></pre>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-danger text-white">
+      <h5 class="mb-0"><i class="fas fa-trash me-1"></i> Delete Data</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">DELETE FROM employees
+WHERE employee_id = 2;</code></pre>
+      
+      <div class="alert alert-danger mt-3">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <strong>Warning:</strong> Without WHERE clause, ALL rows will be deleted!
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0"><i class="fas fa-exchange-alt me-1"></i> Transaction Control</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">-- Turn off auto-commit
+SET AUTOCOMMIT = OFF;
+
+-- Rollback changes if you forget WHERE clause
+ROLLBACK;
+
+-- Commit changes to save permanently
+COMMIT;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0"><i class="fas fa-calendar me-1"></i> Working with Dates</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">INSERT INTO test
+VALUES(
+    (CURRENT_DATE()),
+    (CURRENT_TIME()),
+    (NOW())
+);</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="constraints" class="container section">
+  <h2 class="section-title"><i class="fas fa-lock me-2"></i>Constraints</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-unique me-1"></i> UNIQUE Constraint</h5>
+    </div>
+    <div class="card-body">
+      <p>Create table with UNIQUE constraint:</p>
+      <pre><code class="language-sql">CREATE TABLE products(
+    product_id INT,
+    product_name VARCHAR(50) UNIQUE,
+    price DECIMAL(5,2)
+);</code></pre>
+      
+      <p class="mt-3">Add UNIQUE constraint to existing table:</p>
+      <pre><code class="language-sql">ALTER TABLE products
+ADD CONSTRAINT UNIQUE(product_name);</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0"><i class="fas fa-ban me-1"></i> NOT NULL Constraint</h5>
+    </div>
+    <div class="card-body">
+      <p>Ensures a column cannot have NULL values:</p>
+      <pre><code class="language-sql">CREATE TABLE customers(
+    customer_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100)
+);</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0"><i class="fas fa-check-square me-1"></i> CHECK Constraint</h5>
+    </div>
+    <div class="card-body">
+      <p>Create table with CHECK constraint:</p>
+      <pre><code class="language-sql">CREATE TABLE employees(
+    employee_id INT,
+    hourly_pay DECIMAL(5,2),
+    CONSTRAINT chk_hourly_pay CHECK (hourly_pay >= 10.00)
+);</code></pre>
+      
+      <p class="mt-3">Add CHECK constraint to existing table:</p>
+      <pre><code class="language-sql">ALTER TABLE employees
+ADD CONSTRAINT chk_hourly_pay CHECK(hourly_pay >= 10.00);</code></pre>
+      
+      <p class="mt-3">Drop CHECK constraint:</p>
+      <pre><code class="language-sql">ALTER TABLE employees
+DROP CHECK chk_hourly_pay;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0"><i class="fas fa-clock me-1"></i> DEFAULT Constraint</h5>
+    </div>
+    <div class="card-body">
+      <p>Create table with DEFAULT value:</p>
+      <pre><code class="language-sql">CREATE TABLE products(
+    product_id INT,
+    price DECIMAL(4,2) DEFAULT 0.00
+);</code></pre>
+      
+      <p class="mt-3">Add DEFAULT to existing column:</p>
+      <pre><code class="language-sql">ALTER TABLE products
+ALTER price SET DEFAULT 0.00;</code></pre>
+      
+      <p class="mt-3">Insert with DEFAULT values:</p>
+      <pre><code class="language-sql">INSERT INTO products(product_id, product_name)
+VALUES (5, "napkins"),
+       (6, "straws"),
+       (7, "razor");</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0"><i class="fas fa-key me-1"></i> PRIMARY KEY Constraint</h5>
+    </div>
+    <div class="card-body">
+      <p>Create table with PRIMARY KEY:</p>
+      <pre><code class="language-sql">CREATE TABLE transactions(
+    transaction_id INT PRIMARY KEY,
+    amount DECIMAL(5,2)
+);</code></pre>
+      
+      <p class="mt-3">Add PRIMARY KEY to existing table:</p>
+      <pre><code class="language-sql">ALTER TABLE transactions
+ADD CONSTRAINT PRIMARY KEY (transaction_id);</code></pre>
+      
+      <div class="alert alert-info mt-3">
+        <i class="fas fa-info-circle me-2"></i>
+        PRIMARY KEY columns are automatically NOT NULL and UNIQUE.
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0"><i class="fas fa-sort-numeric-up me-1"></i> AUTO_INCREMENT</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">CREATE TABLE transactions(
+    transaction_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2)
+);</code></pre>
+      
+      <p class="mt-3">Set AUTO_INCREMENT starting value:</p>
+      <pre><code class="language-sql">ALTER TABLE transactions
+AUTO_INCREMENT = 1000;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-danger text-white">
+      <h5 class="mb-0"><i class="fas fa-link me-1"></i> FOREIGN KEY Constraint</h5>
+    </div>
+    <div class="card-body">
+      <p>Create table with FOREIGN KEY:</p>
+      <pre><code class="language-sql">CREATE TABLE transactions(
+    transaction_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2),
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);</code></pre>
+      
+      <p class="mt-3">Add FOREIGN KEY to existing table:</p>
+      <pre><code class="language-sql">ALTER TABLE transactions
+ADD CONSTRAINT fk_customer_id
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id);</code></pre>
+      
+      <p class="mt-3">Drop FOREIGN KEY:</p>
+      <pre><code class="language-sql">ALTER TABLE transactions
+DROP FOREIGN KEY transactions_ibfk_1;</code></pre>
+      
+      <p class="mt-3">Foreign key checks:</p>
+      <pre><code class="language-sql">-- Disable foreign key checks
+SET foreign_key_checks = 0;
+
+-- Enable foreign key checks
+SET foreign_key_checks = 1;</code></pre>
+      
+      <p class="mt-3">ON DELETE options:</p>
+      <pre><code class="language-sql">-- ON DELETE SET NULL: Replace foreign key with NULL when referenced row is deleted
+ALTER TABLE transactions
+ADD CONSTRAINT fk_customer_id
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+ON DELETE SET NULL;
+
+-- ON DELETE CASCADE: Delete row when referenced row is deleted
+ALTER TABLE transactions
+ADD CONSTRAINT fk_customer_id
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+ON DELETE CASCADE;</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="joins" class="container section">
+  <h2 class="section-title"><i class="fas fa-link me-2"></i>Joins & Functions</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-venus-mars me-1"></i> JOIN Types</h5>
+    </div>
+    <div class="card-body">
+      <p>INNER JOIN (returns matching rows):</p>
+      <pre><code class="language-sql">SELECT * 
+FROM transactions 
+INNER JOIN customers
+ON transactions.customer_id = customers.customer_id;</code></pre>
+      
+      <p class="mt-3">Select specific columns with INNER JOIN:</p>
+      <pre><code class="language-sql">SELECT transaction_id, last_name, first_name, amount
+FROM transactions 
+INNER JOIN customers
+ON transactions.customer_id = customers.customer_id;</code></pre>
+      
+      <p class="mt-3">LEFT JOIN (all rows from left table):</p>
+      <pre><code class="language-sql">SELECT * 
+FROM transactions 
+LEFT JOIN customers
+ON transactions.customer_id = customers.customer_id;</code></pre>
+      
+      <p class="mt-3">RIGHT JOIN (all rows from right table):</p>
+      <pre><code class="language-sql">SELECT * 
+FROM transactions 
+RIGHT JOIN customers
+ON transactions.customer_id = customers.customer_id;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0"><i class="fas fa-calculator me-1"></i> SQL Functions</h5>
+    </div>
+    <div class="card-body">
+      <p>Aggregate functions:</p>
+      <pre><code class="language-sql">-- Count rows
+SELECT COUNT(amount) FROM transactions;
+
+-- Maximum value
+SELECT MAX(amount) AS maximum FROM transactions;
+
+-- Minimum value
+SELECT MIN(amount) AS minimum FROM transactions;
+
+-- Average value
+SELECT AVG(amount) AS average FROM transactions;
+
+-- Sum of values
+SELECT SUM(amount) AS total FROM transactions;</code></pre>
+      
+      <p class="mt-3">String functions:</p>
+      <pre><code class="language-sql">-- Concatenate strings
+SELECT CONCAT(last_name, " ", first_name) AS full_name
+FROM customers;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0"><i class="fas fa-merge me-1"></i> UNION Operator</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">-- Combine results from multiple SELECT statements
+SELECT first_name, last_name FROM customers
+UNION
+SELECT first_name, last_name FROM employees;</code></pre>
+      <div class="alert alert-info mt-3">
+        <i class="fas fa-info-circle me-2"></i>
+        UNION requires the same number of columns in all SELECT statements.
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0"><i class="fas fa-retweet me-1"></i> Self Join</h5>
+    </div>
+    <div class="card-body">
+      <pre><code class="language-sql">-- Joining a table with itself
+SELECT a.customer_id, a.first_name, a.last_name,
+       CONCAT(b.first_name, " ", b.last_name) AS "referred_by"
+FROM customers AS a
+INNER JOIN customers AS b
+ON a.referral_id = b.customer_id;</code></pre>
+      
+      <p class="mt-3">Employee supervision example:</p>
+      <pre><code class="language-sql">SELECT a.employee_id, a.first_name, a.last_name,
+       CONCAT(b.last_name, " ", b.first_name) AS "supervised_by"
+FROM employees AS a
+INNER JOIN employees AS b
+ON a.supervisor_id = b.employee_id
+ORDER BY employee_id;</code></pre>
+    </div>
+  </div>
+</section>
+
+<section id="advanced" class="container section">
+  <h2 class="section-title"><i class="fas fa-cogs me-2"></i>Advanced SQL Features</h2>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-eye me-1"></i> Views</h5>
+    </div>
+    <div class="card-body">
+      <p>Create a view (virtual table):</p>
+      <pre><code class="language-sql">CREATE VIEW employees_attendance AS
+SELECT first_name, last_name
+FROM employees;</code></pre>
+      
+      <p class="mt-3">Drop a view:</p>
+      <pre><code class="language-sql">DROP VIEW employees_attendance;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0"><i class="fas fa-search me-1"></i> Indexes</h5>
+    </div>
+    <div class="card-body">
+      <p>Show all indexes on a table:</p>
+      <pre><code class="language-sql">SHOW INDEXES FROM customers;</code></pre>
+      
+      <p class="mt-3">Create an index:</p>
+      <pre><code class="language-sql">CREATE INDEX last_name_idx
+ON customers(last_name);</code></pre>
+      
+      <p class="mt-3">Create multi-column index:</p>
+      <pre><code class="language-sql">CREATE INDEX last_name_first_name_idx
+ON customers(last_name, first_name);</code></pre>
+      
+      <p class="mt-3">Drop an index:</p>
+      <pre><code class="language-sql">ALTER TABLE customers
+DROP INDEX last_name_idx;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0"><i class="fas fa-code-branch me-1"></i> Subqueries</h5>
+    </div>
+    <div class="card-body">
+      <p>Subquery in SELECT:</p>
+      <pre><code class="language-sql">SELECT last_name, first_name, hourly_pay, 
+       (SELECT AVG(hourly_pay) FROM employees) AS average
+FROM employees;</code></pre>
+      
+      <p class="mt-3">Subquery in WHERE clause:</p>
+      <pre><code class="language-sql">SELECT customer_id, first_name, last_name 
+FROM customers
+WHERE customer_id IN
+      (SELECT DISTINCT customer_id 
+       FROM transactions 
+       WHERE customer_id IS NOT NULL);</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0"><i class="fas fa-object-group me-1"></i> GROUP BY</h5>
+    </div>
+    <div class="card-body">
+      <p>Group rows by a column:</p>
+      <pre><code class="language-sql">SELECT SUM(amount) AS total_amount, customer_id
+FROM transactions
+GROUP BY customer_id;</code></pre>
+      
+      <p class="mt-3">Using HAVING clause (filter groups):</p>
+      <pre><code class="language-sql">SELECT COUNT(amount), customer_id
+FROM transactions
+GROUP BY customer_id
+HAVING COUNT(amount) > 1 AND customer_id IS NOT NULL;</code></pre>
+      
+      <p class="mt-3">WITH ROLLUP (adds summary rows):</p>
+      <pre><code class="language-sql">SELECT COUNT(amount), customer_id
+FROM transactions
+GROUP BY customer_id WITH ROLLUP;</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-danger text-white">
+      <h5 class="mb-0"><i class="fas fa-project-diagram me-1"></i> Stored Procedures</h5>
+    </div>
+    <div class="card-body">
+      <p>Create a stored procedure:</p>
+      <pre><code class="language-sql">DELIMITER $$
+
+CREATE PROCEDURE get_customers()
+BEGIN 
+    SELECT * FROM customers;
+END $$
+
+DELIMITER ;</code></pre>
+      
+      <p class="mt-3">Call a stored procedure:</p>
+      <pre><code class="language-sql">CALL get_customers();</code></pre>
+      
+      <p class="mt-3">Drop a stored procedure:</p>
+      <pre><code class="language-sql">DROP PROCEDURE get_customers;</code></pre>
+      
+      <p class="mt-3">Procedure with parameters:</p>
+      <pre><code class="language-sql">DELIMITER $$
+
+CREATE PROCEDURE find_customer(IN id INT)
+BEGIN
+    SELECT customer_id, last_name, first_name 
+    FROM customers
+    WHERE customer_id = id;
+END $$
+
+DELIMITER ;
+
+-- Call with parameter
+CALL find_customer(3);</code></pre>
+    </div>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0"><i class="fas fa-bolt me-1"></i> Triggers</h5>
+    </div>
+    <div class="card-body">
+      <p>Create a trigger (BEFORE UPDATE):</p>
+      <pre><code class="language-sql">CREATE TRIGGER before_hourly_pay_update
+BEFORE UPDATE ON employees
+FOR EACH ROW 
+SET NEW.salary = (NEW.hourly_pay * 2080);</code></pre>
+      
+      <p class="mt-3">Create a trigger (BEFORE INSERT):</p>
+      <pre><code class="language-sql">CREATE TRIGGER before_hourly_pay_insert
+BEFORE INSERT ON employees
+FOR EACH ROW
+SET NEW.salary = (NEW.hourly_pay * 2080);</code></pre>
+      
+      <p class="mt-3">Show all triggers:</p>
+      <pre><code class="language-sql">SHOW TRIGGERS;</code></pre>
+      
+      <div class="alert alert-info mt-3">
+        <i class="fas fa-info-circle me-2"></i>
+        Triggers automatically execute when an event (INSERT, UPDATE, DELETE) occurs.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-dark text-white text-center p-4">
+  <div class="container">
+    <p class="mb-2">© 2025 MySQL Complete Tutorial | Designed for Learning</p>
+    <p class="mb-0">
+      <a href="#intro" class="text-white me-3"><i class="fas fa-arrow-up me-1"></i>Back to Top</a>
+      <a href="https://dev.mysql.com/doc/" target="_blank" class="text-white me-3"><i class="fas fa-book me-1"></i>Official Docs</a>
+      <a href="https://github.com" target="_blank" class="text-white"><i class="fab fa-github me-1"></i>GitHub</a>
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
