@@ -848,6 +848,361 @@ SET NEW.salary = (NEW.hourly_pay * 2080);</code></pre>
     </div>
   </div>
 </section>
+<section id="database-connection" class="container section">
+  <h2 class="section-title"><i class="fas fa-database me-2"></i>Database Connection with Node.js</h2>
+  
+  <div class="alert alert-info mb-4">
+    <i class="fas fa-info-circle me-2"></i>
+    <strong>Prerequisites:</strong> Ensure you have Node.js installed and initialize your project with <code>npm init</code> before proceeding.
+  </div>
+
+  <!-- MySQL Section -->
+  <div class="card mb-5">
+    <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+      <h5 class="mb-0"><i class="fab fa-mysql me-2"></i>MySQL Connection</h5>
+      <span class="badge bg-dark">mysql2 package</span>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <h6><i class="fas fa-download me-1"></i> Installation</h6>
+        <pre><code class="language-bash">npm install mysql2 dotenv</code></pre>
+      </div>
+      
+      <div class="mb-4">
+        <h6><i class="fas fa-file-code me-1"></i> Connection Setup (db.js)</h6>
+        <pre><code class="language-javascript">import mysql from "mysql2/promise";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// Create a connection pool for better performance
+export const db = mysql.createPool({
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "mydatabase",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
+
+// Test connection function
+export async function testConnection() {
+    try {
+        const connection = await db.getConnection();
+        console.log(" MySQL database connected successfully!");
+        connection.release();
+        return true;
+    } catch (error) {
+        console.error(" MySQL connection error:", error.message);
+        return false;
+    }
+}</code></pre>
+      </div>
+      
+      <div class="mb-4">
+        <h6><i class="fas fa-key me-1"></i> Environment Variables (.env)</h6>
+        <pre><code class="language-env">DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=yourpassword
+DB_NAME=yourdatabase</code></pre>
+      </div>
+      
+      <div class="mb-4">
+        <h6><i class="fas fa-code me-1"></i> Usage Examples</h6>
+        
+        <div class="mb-3">
+          <p><strong>SELECT Query:</strong></p>
+          <pre><code class="language-javascript">async function getUsers() {
+    try {
+        const [rows] = await db.query("SELECT * FROM users WHERE active = ?", [1]);
+        return rows;
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        throw error;
+    }
+}</code></pre>
+        </div>
+        
+        <div class="mb-3">
+          <p><strong>INSERT Query:</strong></p>
+          <pre><code class="language-javascript">async function createUser(name, email) {
+    try {
+        const [result] = await db.query(
+            "INSERT INTO users (name, email, created_at) VALUES (?, ?, NOW())",
+            [name, email]
+        );
+        return result.insertId;
+    } catch (error) {
+        console.error("Error creating user:", error);
+        throw error;
+    }
+}</code></pre>
+        </div>
+        
+        <div class="mb-3">
+          <p><strong>UPDATE Query:</strong></p>
+          <pre><code class="language-javascript">async function updateUser(id, data) {
+    try {
+        const [result] = await db.query(
+            "UPDATE users SET name = ?, email = ? WHERE id = ?",
+            [data.name, data.email, id]
+        );
+        return result.affectedRows;
+    } catch (error) {
+        console.error("Error updating user:", error);
+        throw error;
+    }
+}</code></pre>
+        </div>
+        
+        <div class="mb-3">
+          <p><strong>Transaction Example:</strong></p>
+          <pre><code class="language-javascript">async function transferFunds(fromId, toId, amount) {
+    const connection = await db.getConnection();
+    
+    try {
+        await connection.beginTransaction();
+        
+        // Deduct from sender
+        await connection.query(
+            "UPDATE accounts SET balance = balance - ? WHERE id = ?",
+            [amount, fromId]
+        );
+        
+        // Add to receiver
+        await connection.query(
+            "UPDATE accounts SET balance = balance + ? WHERE id = ?",
+            [amount, toId]
+        );
+        
+        await connection.commit();
+        console.log("Transaction completed successfully");
+    } catch (error) {
+        await connection.rollback();
+        console.error("Transaction failed:", error);
+        throw error;
+    } finally {
+        connection.release();
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PostgreSQL Section -->
+  <div class="card mb-5">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h5 class="mb-0"><i class="fab fa-postgresql me-2"></i>PostgreSQL Connection</h5>
+      <span class="badge bg-dark">pg package</span>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <h6><i class="fas fa-download me-1"></i> Installation</h6>
+        <pre><code class="language-bash">npm install pg dotenv</code></pre>
+      </div>
+      
+      <div class="mb-4">
+        <h6><i class="fas fa-file-code me-1"></i> Connection Setup (db.js)</h6>
+        <pre><code class="language-javascript">import { Pool } from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// PostgreSQL connection pool
+export const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  // For secure connections (like Supabase, AWS RDS, etc.)
+  ssl: process.env.NODE_ENV === 'production' ? {
+    rejectUnauthorized: false
+  } : false,
+  max: 20, // maximum number of clients in the pool
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
+
+// Test connection function
+export async function testPostgresConnection() {
+    try {
+        const client = await db.connect();
+        console.log(" PostgreSQL database connected successfully!");
+        client.release();
+        return true;
+    } catch (error) {
+        console.error(" PostgreSQL connection error:", error.message);
+        return false;
+    }
+}</code></pre>
+      </div>
+      
+      <div class="mb-4">
+        <h6><i class="fas fa-key me-1"></i> Environment Variables (.env)</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Individual Variables:</strong></p>
+            <pre><code class="language-env">PGHOST=localhost
+PGUSER=postgres
+PGPASSWORD=yourpassword
+PGDATABASE=yourdatabase
+PGPORT=5432</code></pre>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Connection String (for services like Supabase):</strong></p>
+            <pre><code class="language-env">DATABASE_URL=postgresql://username:password@host:port/database</code></pre>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <h6><i class="fas fa-code me-1"></i> Usage Examples</h6>
+        
+        <div class="mb-3">
+          <p><strong>SELECT Query:</strong></p>
+          <pre><code class="language-javascript">async function getUsers() {
+    try {
+        const result = await db.query(
+            "SELECT * FROM users WHERE active = $1",
+            [true]
+        );
+        return result.rows;
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        throw error;
+    }
+}</code></pre>
+        </div>
+        
+        <div class="mb-3">
+          <p><strong>INSERT Query:</strong></p>
+          <pre><code class="language-javascript">async function createUser(name, email) {
+    try {
+        const result = await db.query(
+            "INSERT INTO users (name, email, created_at) VALUES ($1, $2, NOW()) RETURNING id",
+            [name, email]
+        );
+        return result.rows[0].id;
+    } catch (error) {
+        console.error("Error creating user:", error);
+        throw error;
+    }
+}</code></pre>
+        </div>
+        
+        <div class="mb-3">
+          <p><strong>UPDATE Query:</strong></p>
+          <pre><code class="language-javascript">async function updateUser(id, data) {
+    try {
+        const result = await db.query(
+            "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
+            [data.name, data.email, id]
+        );
+        return result.rows[0];
+    } catch (error) {
+        console.error("Error updating user:", error);
+        throw error;
+    }
+}</code></pre>
+        </div>
+        
+        <div class="mb-3">
+          <p><strong>Transaction Example:</strong></p>
+          <pre><code class="language-javascript">async function transferFunds(fromId, toId, amount) {
+    const client = await db.connect();
+    
+    try {
+        await client.query('BEGIN');
+        
+        // Deduct from sender
+        await client.query(
+            "UPDATE accounts SET balance = balance - $1 WHERE id = $2",
+            [amount, fromId]
+        );
+        
+        // Add to receiver
+        await client.query(
+            "UPDATE accounts SET balance = balance + $1 WHERE id = $2",
+            [amount, toId]
+        );
+        
+        await client.query('COMMIT');
+        console.log("Transaction completed successfully");
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error("Transaction failed:", error);
+        throw error;
+    } finally {
+        client.release();
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="card">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>MySQL vs PostgreSQL Comparison</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Feature</th>
+              <th>MySQL</th>
+              <th>PostgreSQL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Parameter Placeholder</strong></td>
+              <td><code>?</code> (positional)</td>
+              <td><code>$1, $2, $3</code> (numbered)</td>
+            </tr>
+            <tr>
+              <td><strong>RETURNING Clause</strong></td>
+              <td><code>LAST_INSERT_ID()</code> or multiple queries needed</td>
+              <td><code>RETURNING *</code> supported in INSERT/UPDATE</td>
+            </tr>
+            <tr>
+              <td><strong>Connection Method</strong></td>
+              <td><code>mysql.createPool()</code></td>
+              <td><code>new Pool()</code></td>
+            </tr>
+            <tr>
+              <td><strong>Result Structure</strong></td>
+              <td><code>[rows, fields]</code> array destructuring</td>
+              <td><code>{ rows, rowCount }</code> object</td>
+            </tr>
+            <tr>
+              <td><strong>Transaction Syntax</strong></td>
+              <td><code>BEGIN; ... COMMIT;</code> or pool methods</td>
+              <td><code>BEGIN; ... COMMIT;</code></td>
+            </tr>
+            <tr>
+              <td><strong>Example Query</strong></td>
+              <td><code>INSERT ... VALUES (?, ?)</code></td>
+              <td><code>INSERT ... VALUES ($1, $2) RETURNING id</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="mt-4 p-3 bg-light border rounded">
+        <h6><i class="fas fa-lightbulb me-2"></i>Best Practices</h6>
+        <ul class="mb-0">
+          <li>Always use parameterized queries to prevent SQL injection</li>
+          <li>Use connection pools for production applications</li>
+          <li>Handle connection errors and implement retry logic</li>
+          <li>Close connections properly in finally blocks</li>
+          <li>Use environment variables for sensitive data (never hardcode credentials)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer class="bg-dark text-white text-center p-4">
   <div class="container">

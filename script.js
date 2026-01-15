@@ -120,6 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Console greeting
-  console.log('%c🚀 MySQL Tutorial Ready!', 'color: #0d6efd; font-size: 18px; font-weight: bold;');
-  console.log('%cExplore all MySQL commands with our interactive UI!', 'color: #6c757d;');
+//   console.log('%c🚀 MySQL Tutorial Ready!', 'color: #0d6efd; font-size: 18px; font-weight: bold;');
+//   console.log('%cExplore all MySQL commands with our interactive UI!', 'color: #6c757d;');
 });
