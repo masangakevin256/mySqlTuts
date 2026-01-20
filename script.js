@@ -118,6 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+  const year =document.querySelector('.year');
+  year.textContent = new Date().getFullYear();
   
   // Console greeting
 //   console.log('%c🚀 MySQL Tutorial Ready!', 'color: #0d6efd; font-size: 18px; font-weight: bold;');
